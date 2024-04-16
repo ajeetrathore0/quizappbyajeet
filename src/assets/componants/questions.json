@@ -1,0 +1,62 @@
+[
+  {
+    "question": "What is the capital of Canada?",
+    "options": ["Toronto", "Ottawa", "Vancouver", "Montreal"],
+    "answer": "Ottawa",
+    "selected":""
+  },
+  {
+    "question": "Who is the author of 'The Great Gatsby'?",
+    "options": ["F. Scott Fitzgerald", "Ernest Hemingway", "J.D. Salinger", "Mark Twain"],
+    "answer": "F. Scott Fitzgerald",
+    "selected":""
+  },
+  {
+    "question": "What is the chemical symbol for gold?",
+    "options": ["Au", "Ag", "Fe", "Cu"],
+    "answer": "Au",
+    "selected":""
+  },
+  {
+    "question": "Which is the largest planet in our solar system?",
+    "options": ["Jupiter", "Saturn", "Neptune", "Uranus"],
+    "answer": "Jupiter",
+    "selected":""
+  },
+  {
+    "question": "Who wrote '1984'?",
+    "options": ["George Orwell", "Aldous Huxley", "Ray Bradbury", "Arthur C. Clarke"],
+    "answer": "George Orwell",
+    "selected":""
+  },
+  {
+    "question": "What is the fastest land animal?",
+    "options": ["Cheetah", "Lion", "Leopard", "Gazelle"],
+    "answer": "Cheetah",
+    "selected":""
+  },
+  {
+    "question": "In which year did the Titanic sink?",
+    "options": ["1912", "1908", "1915", "1920"],
+    "answer": "1912",
+    "selected":""
+  },
+  {
+    "question": "What is the largest organ in the human body?",
+    "options": ["Liver", "Heart", "Brain", "Skin"],
+    "answer": "Skin",
+    "selected":""
+  },
+  {
+    "question": "Who painted the ceiling of the Sistine Chapel?",
+    "options": ["Leonardo da Vinci", "Michelangelo", "Raphael", "Donatello"],
+    "answer": "Michelangelo",
+    "selected":""
+  },
+  {
+    "question": "Which planet is known as the 'Morning Star'?",
+    "options": ["Venus", "Mercury", "Mars", "Jupiter"],
+    "answer": "Venus",
+    "selected":""
+  }
+]

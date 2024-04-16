@@ -5,9 +5,107 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: url(./assets/images/HD-wallpaper-whatsapp-background-cool-dark-green-new-theme-whatsapp.jpg);
+  background-position: fixed;
+  background-size: cover;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+section{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding:20px
+}
+
+.buttons{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding:20px
+}
+.card{
+  background: #f7f7f76b;
+    backdrop-filter: blur(1px);
+}
+
+.list-group-flush>.list-group-item{
+
+  background: #7070706b;
+    backdrop-filter: blur(1px);
+}
+.list-group-flush>.list-group-item:hover{
+  background: #d8d1d1c7;
+    backdrop-filter: blur(1px);
+}
+.btn{
+  border: 1px solid black ;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.589);
+}
+.btn:hover{
+  border: 1px solid black;
+
+}
+#card1{
+  transform: translateX(100vw);
+  position: relative;
+}
+#card1{
+  transform: translateX(0vw);
+  position: relative;
+}
+#card2{
+  transform: translateX(0);
+  transition: 0.5s;
+  position: absolute
+}
+
+h1{
+  color: rgb(255, 255, 255);
+  text-align: center;
+  background-color: rgba(176, 224, 226, 0.26);
+  display: flex;
+  justify-content: center;
+  padding: 20px 30px;
+  border-bottom: 2px solid black;
+  margin:0px 0px 20px 0px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.right{
+  
+    transform: translateX(100vw) !important;
+    transition: 0.5s;
+    position: relative;
+
+}
+.left{
+  
+    transform: translateX(-100vw) !important;
+    transition: 0.5s;
+    position: relative;
+
+}
+i{
+  padding-right: 3px ;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 18px;
+  border:1px solid black;
+  
+}
+h2{
+  text-align: center;
+  font-size: 30px;
+  color: rgb(255, 255, 255);
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.pp{
+  padding: 10px;
 }
