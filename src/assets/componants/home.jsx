@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
 import questions from './questions.json';
+import { useEffect } from 'react';
+
 function QuizApp() {
   // Sample quiz questions
+
 
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [nextQ, setNextQ] = useState(0);
   const currentQuestion = questions[currentQuestionIndex];
   const [score, setScore] = useState(0);
+  const [startTest, SetStartTest] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+
+  if (localStorage.getItem('question') != null) {
+   questions = JSON.parse(localStorage.getItem('question'));
+    setCurrentQuestionIndex(localStorage.getItem('currentQuestion'));
+    localStorage.removeItem('question');
+
+  }
   const handleNextQuestion = () => {
+    localStorage.setItem('question', JSON.stringify(questions));
+    localStorage.setItem('currentQuestion', currentQuestionIndex);
     document.getElementById('pre').disabled = false;
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -18,14 +32,16 @@ function QuizApp() {
 
     } else {
       // Handle end of quiz
-      questions.forEach(element => {
-        if (element.selected == element.answer) {
-          setScore(score + 1);
+      let num = 0;
+      questions.forEach(question => {
+        if (question.selected == question.answer) {
+          num += 1
         }
       });
+      setScore(num);
       let html = `
       <div className="card container pp" style="margin:10px;padding:3px ; background-color: #f1dedec7; border-radius: 10px; border:1px solid black;display:flex;flex-direction:column;align-items:center;text-align:center;">
-      <h2 className="card-header">You scored ${score} out of 10</h2>
+      <h2 className="card-header">You scored ${num-nextQ} out of 10</h2>
       <div className="card-body">
       <h5 className="card-title">Congratulations</h5>
       <p className="card-text">You have completed the quiz</p>
@@ -35,14 +51,22 @@ function QuizApp() {
       `
       document.querySelector('.container').style.display = 'none';
       document.querySelector('#root').innerHTML += html;
+      if (localStorage.getItem('question') != null) {
+        localStorage.removeItem('question');
+      }
     }
+
     let card1 = document.getElementById('card1');
     card1.classList.add('left')
     setTimeout(() => {
       card1.classList.remove('left')
     }, 500);
   };
+
+
   const handlePreviousQuestion = () => {
+    localStorage.setItem('question', JSON.stringify(questions));
+    localStorage.setItem('currentQuestion', currentQuestionIndex);
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
       document.getElementById('nex').innerText = "Next Question";
@@ -53,7 +77,10 @@ function QuizApp() {
     } else {
       // Handle end of quiz
       document.getElementById('pre').disabled = true;
+
     }
+
+
     let card1 = document.getElementById('card1');
     card1.classList.add('left')
     setTimeout(() => {
@@ -61,6 +88,38 @@ function QuizApp() {
     }, 500);
   };
 
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && !document.fullscreenElement) {
+        setNextQ(nextQ + 1);
+        alert("You are now back in the page",'your mark is minus 1 from your total mark');
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
+  const toggleFullScreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => {
+        setIsFullScreen(true);
+      }).catch((err) => {
+        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+      });
+    } else {
+      document.exitFullscreen().then(() => {
+        setIsFullScreen(false);
+      }).catch((err) => {
+        alert(`Error attempting to exit full-screen mode: ${err.message} (${err.name})`);
+      });
+    }
+  };
 
   const Setanswer = (e) => {
     currentQuestion.selected = e.target.innerText;
@@ -73,64 +132,74 @@ function QuizApp() {
 
   return (
     <>
-      <div className="container">
-        <h2>{currentQuestionIndex + 1}</h2>
-        <section>
-          <div id='card1'>
-            <div className="card" style={{ width: "18rem" }}>
-              <h2 className="card-header">{currentQuestion.question}</h2>
-              <ul className="list-group list-group-flush">
-                {currentQuestion.options.map((option, index) => (
-                  <li className="list-group-item" key={option} onClick={
-                    (e) => {
-                      currentQuestion.selected = option;
-                      e.target.style.backgroundColor = 'green';
-                    }
-                  }>{option}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div id='card2'>
-            <div className="card" style={{ width: "18rem" }}>
-              <h2 className="card-header">{currentQuestion.question}</h2>
-              <ul className="list-group list-group-flush">
-                {currentQuestion.options.map((option, index) => {
-
-                  if (currentQuestion.selected == option) {
-                    return (
-                      <li className="list-group-item " style={{ background: 'green' }} key={option} onClick={
+      {
+        startTest ? (
+          <div className="container">
+            <h2>{currentQuestionIndex + 1}</h2>
+            <section>
+              <div id='card1'>
+                <div className="card" style={{ width: "18rem" }}>
+                  <h2 className="card-header">{currentQuestion.question}</h2>
+                  <ul className="list-group list-group-flush">
+                    {currentQuestion.options.map((option, index) => (
+                      <li className="list-group-item" key={option} onClick={
                         (e) => {
-                          Setanswer(e)
-                        }}
-                      >{option}</li>
-                    )
-                  }
-                  else {
-                    return (
-
-
-                      <li className="list-group-item" style={{ background: "#7070706b" }} key={option} onClick={
-                        (e) => {
-                          Setanswer(e)
+                          currentQuestion.selected = option;
+                          e.target.style.backgroundColor = 'green';
                         }
                       }>{option}</li>
-                    )
-                  }
-                })}
-              </ul>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div id='card2'>
+                <div className="card" style={{ width: "18rem" }}>
+                  <h2 className="card-header">{currentQuestion.question}</h2>
+                  <ul className="list-group list-group-flush">
+                    {currentQuestion.options.map((option, index) => {
+
+                      if (currentQuestion.selected == option) {
+                        return (
+                          <li className="list-group-item " style={{ background: 'green' }} key={option} onClick={
+                            (e) => {
+                              Setanswer(e)
+                            }}
+                          >{option}</li>
+                        )
+                      }
+                      else {
+                        return (
+
+
+                          <li className="list-group-item" style={{ background: "#7070706b" }} key={option} onClick={
+                            (e) => {
+                              Setanswer(e)
+                            }
+                          }>{option}</li>
+                        )
+                      }
+                    })}
+                  </ul>
+                </div>
+              </div>
+
+
+
+
+            </section>
+            <div className="buttons">
+              <button id='pre' className='btn' onClick={handlePreviousQuestion}>Previous Question</button>
+              <button id='nex' className='btn' onClick={handleNextQuestion}>Next Question</button>
             </div>
           </div>
+        ) : (
+          <div className="container c">
+            <h2>Start Quiz</h2>
+            <button className='btn abs' onClick={() => { SetStartTest(true); toggleFullScreen() }}>Start Quiz</button>
+          </div>
+        )
 
-
-
-
-        </section>
-        <div className="buttons">
-          <button id='pre' className='btn' onClick={handlePreviousQuestion}>Previous Question</button>
-          <button id='nex' className='btn' onClick={handleNextQuestion}>Next Question</button>
-        </div>
-      </div>
+      }
     </>
   );
 }

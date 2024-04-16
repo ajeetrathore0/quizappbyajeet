@@ -109,3 +109,15 @@ h2{
 .pp{
   padding: 10px;
 }
+
+.abs{
+  position: fixed;
+  bottom: 0;
+  margin: 20px;
+}
+.c{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
+}
