@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import questions from './questions.json';
+import qu from './questions.json';
 import { useEffect } from 'react';
 
 function QuizApp() {
   // Sample quiz questions
 
-
-
+  const [questions, setQuestions] = useState(qu);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [nextQ, setNextQ] = useState(0);
   const currentQuestion = questions[currentQuestionIndex];
@@ -15,14 +14,19 @@ function QuizApp() {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   if (localStorage.getItem('question') != null) {
-   questions = JSON.parse(localStorage.getItem('question'));
-    setCurrentQuestionIndex(localStorage.getItem('currentQuestion'));
+    let q = JSON.parse(localStorage.getItem('question'));
+    setQuestions(q);
     localStorage.removeItem('question');
 
   }
-  const handleNextQuestion = () => {
+  else {
     localStorage.setItem('question', JSON.stringify(questions));
-    localStorage.setItem('currentQuestion', currentQuestionIndex);
+  }
+  const handleNextQuestion = () => {
+    let b = questions
+    localStorage.setItem('question', JSON.stringify(b));
+    let a = currentQuestionIndex;
+    localStorage.setItem('currentQuestion', a);
     document.getElementById('pre').disabled = false;
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -41,7 +45,7 @@ function QuizApp() {
       setScore(num);
       let html = `
       <div className="card container pp" style="margin:10px;padding:3px ; background-color: #f1dedec7; border-radius: 10px; border:1px solid black;display:flex;flex-direction:column;align-items:center;text-align:center;">
-      <h2 className="card-header">You scored ${num-nextQ} out of 10</h2>
+      <h2 className="card-header">You scored ${num - nextQ} out of 10</h2>
       <div className="card-body">
       <h5 className="card-title">Congratulations</h5>
       <p className="card-text">You have completed the quiz</p>
@@ -66,7 +70,8 @@ function QuizApp() {
 
   const handlePreviousQuestion = () => {
     localStorage.setItem('question', JSON.stringify(questions));
-    localStorage.setItem('currentQuestion', currentQuestionIndex);
+    let a = currentQuestionIndex;
+    localStorage.setItem('currentQuestion', a);
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
       document.getElementById('nex').innerText = "Next Question";
@@ -94,7 +99,7 @@ function QuizApp() {
     const handleVisibilityChange = () => {
       if (!document.hidden && !document.fullscreenElement) {
         setNextQ(nextQ + 1);
-        alert("You are now back in the page",'your mark is minus 1 from your total mark');
+        alert("You are now back in the page", 'your mark is minus 1 from your total mark');
       }
     };
 
